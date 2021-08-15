@@ -37,8 +37,8 @@ impl SupportedSystems {
 
 pub fn read_system_config(
     filename: &str,
-    platform: Option<String>,
-    distribution: Option<String>,
+    platform: Option<&str>,
+    distribution: Option<&str>,
 ) -> Result<Systemconfig, ()> {
     if let Some(platform) = &platform {
         if !SupportedSystems::check_platform(&platform) {
@@ -77,8 +77,8 @@ pub fn read_system_config(
     }
 
     let sysname = match distribution {
-        Some(distro) => format!("{}.{}", platform.unwrap_or(String::new()), distro),
-        None => platform.unwrap_or(String::new()),
+        Some(distro) => format!("{}.{}", platform.unwrap_or(""), distro),
+        None => platform.unwrap_or("").to_string(),
     };
     let mut name: Option<String> = None;
     if sysname.len() > 0 {
