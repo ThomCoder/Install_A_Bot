@@ -1,6 +1,7 @@
 mod backends;
 mod install;
-mod parser;
+mod packageconfig;
+mod systemconfig;
 
 fn main() {
     println!("Hello, world!");

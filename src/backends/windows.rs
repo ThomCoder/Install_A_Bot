@@ -1,5 +1,5 @@
 use crate::backends::Installer;
-use crate::parser::Package;
+use crate::packageconfig::Package;
 
 struct WindowsBackend;
 

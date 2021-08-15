@@ -1,4 +1,4 @@
-use crate::parser::Package;
+use crate::packageconfig::Package;
 
 pub mod linux;
 pub mod mac;
