@@ -11,7 +11,10 @@ pub enum Status {
 }
 
 pub struct Package {
-    // todo
+    name: String,
+    status: Status,
+    source: Option<Source>,
+    cmd: Option<Vec<String>>
 }
 
 pub struct Target {
