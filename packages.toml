@@ -1,0 +1,37 @@
+# A package specified in more detail; packagedefinition is a predefined target
+[packagedefinition.cmake]
+source="git"
+url="github.com/something"
+install_cmds = [ "make", "make install" ]
+
+# General rules about the systems Install_A_Bot is running on; also a predefined target
+[systemconfig]
+install_cmd = "sudo apt install"
+[systemconfig.windows]
+install_cmd = "winget install"
+
+# Empty targets are syntactically possible
+[systemconfig.linux]
+
+[systemconfig.linux.arch]
+install_cmd = "sudo pacman -S"
+
+# Following are examples of user defined targets
+[general]
+install_cmd = "sudo apt install"
+packages = [cmake, git]
+
+[general.tower]
+packages = [honggfuzz]
+
+[general.laptop]
+packages = [spotify]
+
+[general.another_laptop]
+packages = []
+
+# Targets can be used like roles too
+[hackingmachine]
+packages = [gdb, vim]
+[fun]
+packages = [steam]
