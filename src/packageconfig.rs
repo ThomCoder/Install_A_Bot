@@ -1,5 +1,20 @@
+pub enum Source {
+    Git,
+    Web, // Straight download, e.g. via curl
+    Local,
+}
+
+pub enum Status {
+    Ready,
+    Succeeded,
+    Failed,
+}
+
 pub struct Package {
-    // todo
+    name: String,
+    status: Status,
+    source: Option<Source>,
+    cmd: Option<Vec<String>>
 }
 
 pub struct Target {
