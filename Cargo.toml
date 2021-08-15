@@ -1,5 +1,5 @@
 [package]
-name = "InstallABot"
+name = "install_a_bot"
 version = "0.1.0"
 edition = "2018"
 
