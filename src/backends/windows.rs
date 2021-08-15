@@ -5,6 +5,10 @@ use crate::systemconfig::Systemconfig;
 struct WindowsBackend;
 
 impl Installer for WindowsBackend {
-    fn install_package(package: &Package, systemconfig: &Systemconfig) {}
-    fn install_package_list(packages: Vec<Package>, systemconfig: &Systemconfig) {}
+    fn install_package(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
+        Err(())
+    }
+    fn install_package_list(packages: &mut Vec<Package>, systemconfig: &Systemconfig) -> Result<(), ()> {
+        Err(())
+    }
 }
