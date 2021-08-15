@@ -20,19 +20,19 @@ install_cmd = "sudo pacman -S"
 # Following are examples of user defined targets
 [general]
 install_cmd = "sudo apt install"
-packages = [cmake, git]
+packages = ["cmake", "git"]
 
 [general.tower]
-packages = [honggfuzz]
+packages = ["honggfuzz"]
 
 [general.laptop]
-packages = [spotify]
+packages = ["spotify"]
 
 [general.another_laptop]
 packages = []
 
 # Targets can be used like roles too
 [hackingmachine]
-packages = [gdb, vim]
+packages = ["gdb", "vim"]
 [fun]
-packages = [steam]
+packages = ["steam"]
