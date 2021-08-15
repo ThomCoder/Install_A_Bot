@@ -13,6 +13,7 @@ install_cmd = "winget install"
 # Empty targets are syntactically possible
 [systemconfig.linux]
 
+# systemconfig for linux can be further specified with user defined strings
 [systemconfig.linux.arch]
 install_cmd = "sudo pacman -S"
 
