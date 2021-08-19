@@ -6,6 +6,30 @@ struct LinuxBackend;
 
 impl Installer for LinuxBackend {
 	fn install_package(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
+		match package.source.as_ref() {
+			Some(src) => {
+
+				match src {
+					Git => {
+
+					}
+
+					Web => {
+
+					}
+
+					Local => {
+
+					}
+				}
+
+			}
+
+			None => {
+				return Err(())
+			}
+		}
+
 		Ok(())
 	}
 
