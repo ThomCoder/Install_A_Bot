@@ -1,3 +1,5 @@
+use std::io::Write;
+
 use clap::{App, Arg};
 
 mod backends;
@@ -5,6 +7,10 @@ mod install;
 mod packageconfig;
 mod systemconfig;
 mod tomlhelper;
+
+fn print_section_separator() {
+    println!("================================");
+}
 
 fn main() {
     let args = App::new("InstallABot")
@@ -25,6 +31,7 @@ fn main() {
     let verify = args.is_present("verify");
     let dryrun = args.is_present("dryrun");
 
+    print_section_separator();
     let sys = systemconfig::read_system_config(platform, distro).unwrap();
     println!(
         "System Configuration:\nName: {} | install_cmd: {}",
@@ -53,14 +60,37 @@ fn main() {
             target
         ),
     };
+    print_section_separator();
     let packages = packageconfig.read_package_list(target_internal);
+    println!("Found {} packages.", packages.len());
 
     // read package list
     if interactive {
         // show packagelist?
-        // if yes -> print packages
-        for pack in &packages {
-            println!("{}", pack);
+        print!("Show list of packages to install?\n(Y)es / (N)o: ");
+        let _ = std::io::stdout().flush();
+        let mut buff = String::new();
+        let mut show_packages = false;
+        match std::io::stdin().read_line(&mut buff) {
+            Ok(_) => {
+                let input = buff.trim();
+                if input.eq_ignore_ascii_case("y") || input.eq_ignore_ascii_case("yes") {
+                    show_packages = true;
+                }
+                ()
+            }
+            Err(e) => {
+                println!("Error occured during read on stdin: {}", e);
+                ()
+            }
+        };
+
+        if show_packages {
+            print_section_separator();
+            println!("Packages:");
+            for pack in &packages {
+                println!("* {}", pack);
+            }
         }
     }
 
