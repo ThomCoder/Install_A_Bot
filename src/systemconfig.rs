@@ -1,4 +1,4 @@
-use toml::Value;
+use crate::tomlhelper;
 
 pub struct Systemconfig {
     pub name: Option<String>,
@@ -36,21 +36,16 @@ impl SupportedSystems {
 }
 
 pub fn read_system_config(
-    filename: &str,
     platform: Option<&str>,
     distribution: Option<&str>,
-) -> Result<Systemconfig, ()> {
+) -> Result<Systemconfig, String> {
     if let Some(platform) = &platform {
         if !SupportedSystems::check_platform(&platform) {
-            return Err(());
+            return Err(format!("Platform {} not supported", platform));
         }
     }
 
-    let file = std::fs::read_to_string(filename).expect("Error reading config file");
-    let toml = match file.parse::<Value>() {
-        Ok(v) => v,
-        Err(_) => return Err(()),
-    };
+    let toml = tomlhelper::open_toml()?;
     let systemconfig = &toml["systemconfig"];
     let mut install_cmd_toml: Option<String> = None;
 
@@ -73,7 +68,7 @@ pub fn read_system_config(
     }
 
     if install_cmd_toml.is_none() {
-        return Err(());
+        return Err("Missing install command".to_string());
     }
 
     let sysname = match distribution {
