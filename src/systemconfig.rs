@@ -38,10 +38,10 @@ impl SupportedSystems {
 pub fn read_system_config(
     platform: Option<&str>,
     distribution: Option<&str>,
-) -> Result<Systemconfig, ()> {
+) -> Result<Systemconfig, String> {
     if let Some(platform) = &platform {
         if !SupportedSystems::check_platform(&platform) {
-            return Err(());
+            return Err(format!("Platform {} not supported", platform));
         }
     }
 
@@ -68,7 +68,7 @@ pub fn read_system_config(
     }
 
     if install_cmd_toml.is_none() {
-        return Err(());
+        return Err("Missing install command".to_string());
     }
 
     let sysname = match distribution {

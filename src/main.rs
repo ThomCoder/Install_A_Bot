@@ -32,7 +32,10 @@ fn main() {
     let dryrun = args.is_present("dryrun");
 
     print_section_separator();
-    let sys = systemconfig::read_system_config(platform, distro).unwrap();
+    let sys = match systemconfig::read_system_config(platform, distro) {
+        Ok(cfg) => cfg,
+        Err(e) => panic!("Error: {}", e),
+    };
     println!(
         "System Configuration:\nName: {} | install_cmd: {}",
         sys.name.unwrap_or("default".to_string()),
@@ -42,8 +45,12 @@ fn main() {
         // continue?
     }
 
-    let packageconfig = packageconfig::PackageConfig::new()
-        .expect("Error opening packages.toml file. Check output for details.");
+    let packageconfig = match packageconfig::PackageConfig::new() {
+        Ok(cfg) => cfg,
+        Err(e) => {
+            panic!("Error loading packages config: {}", e);
+        }
+    };
 
     let targ_def: Vec<&str> = target.split(".").collect();
     let target_internal = match targ_def.len() {

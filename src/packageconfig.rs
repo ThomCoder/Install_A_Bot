@@ -44,17 +44,14 @@ pub struct Target {
 }
 
 impl PackageConfig {
-    pub fn new() -> Result<PackageConfig, ()> {
-        match tomlhelper::open_toml() {
-            Ok(t) => {
-                let packagesconfig = t.get(PACKAGECONFIG_IDX).map(|v| v.clone());
-                Ok(PackageConfig {
-                    toml: t,
-                    packageconfigs: packagesconfig,
-                })
+    pub fn new() -> Result<PackageConfig, String> {
+        tomlhelper::open_toml().map(|t| {
+            let packagesconfig = t.get(PACKAGECONFIG_IDX).map(|v| v.clone());
+            PackageConfig {
+                toml: t,
+                packageconfigs: packagesconfig,
             }
-            Err(_) => Err(()),
-        }
+        })
     }
 
     pub fn read_package_list(&self, target: Target) -> Vec<Package> {
