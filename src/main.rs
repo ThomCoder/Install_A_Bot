@@ -3,6 +3,7 @@ use std::io::Write;
 use clap::{App, Arg};
 
 mod backends;
+mod errors;
 mod install;
 mod packageconfig;
 mod systemconfig;

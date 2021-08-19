@@ -1,4 +1,7 @@
-use crate::tomlhelper;
+use crate::{
+    errors::{Error, ErrorCode},
+    tomlhelper,
+};
 
 pub struct Systemconfig {
     pub name: Option<String>,
@@ -38,10 +41,13 @@ impl SupportedSystems {
 pub fn read_system_config(
     platform: Option<&str>,
     distribution: Option<&str>,
-) -> Result<Systemconfig, String> {
+) -> Result<Systemconfig, Error> {
     if let Some(platform) = &platform {
         if !SupportedSystems::check_platform(&platform) {
-            return Err(format!("Platform {} not supported", platform));
+            return Err(Error::with_msg(
+                ErrorCode::InvalidParameter,
+                format!("Platform {} not supported", platform),
+            ));
         }
     }
 
@@ -68,7 +74,10 @@ pub fn read_system_config(
     }
 
     if install_cmd_toml.is_none() {
-        return Err("Missing install command".to_string());
+        return Err(Error::with_msg(
+            ErrorCode::InvalidConfig,
+            "Missing install command".to_string(),
+        ));
     }
 
     let sysname = match distribution {

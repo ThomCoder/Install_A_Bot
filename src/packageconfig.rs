@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::tomlhelper;
+use crate::{errors::Error, tomlhelper};
 use toml::Value;
 
 const PACKAGES_IDX: &str = "packages";
@@ -44,7 +44,7 @@ pub struct Target {
 }
 
 impl PackageConfig {
-    pub fn new() -> Result<PackageConfig, String> {
+    pub fn new() -> Result<PackageConfig, Error> {
         tomlhelper::open_toml().map(|t| {
             let packagesconfig = t.get(PACKAGECONFIG_IDX).map(|v| v.clone());
             PackageConfig {
