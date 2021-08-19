@@ -1,4 +1,4 @@
-use toml::Value;
+use crate::tomlhelper;
 
 pub struct Systemconfig {
     pub name: Option<String>,
@@ -36,7 +36,6 @@ impl SupportedSystems {
 }
 
 pub fn read_system_config(
-    filename: &str,
     platform: Option<&str>,
     distribution: Option<&str>,
 ) -> Result<Systemconfig, ()> {
@@ -46,11 +45,7 @@ pub fn read_system_config(
         }
     }
 
-    let file = std::fs::read_to_string(filename).expect("Error reading config file");
-    let toml = match file.parse::<Value>() {
-        Ok(v) => v,
-        Err(_) => return Err(()),
-    };
+    let toml = tomlhelper::open_toml()?;
     let systemconfig = &toml["systemconfig"];
     let mut install_cmd_toml: Option<String> = None;
 
