@@ -1,8 +1,22 @@
 use crate::backends::Installer;
 use crate::packageconfig::Package;
 use crate::systemconfig::Systemconfig;
+use std::process::Command;
 
 struct LinuxBackend;
+
+fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
+    let output = Command::new(systemconfig.install_cmd.clone())
+        .arg(package.name.clone())
+        .output()
+        .expect("error");
+
+	if output.status.success() {
+		Ok(())
+	} else {
+		Err(())
+	}
+}
 
 impl Installer for LinuxBackend {
 	fn install_package(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
@@ -11,26 +25,24 @@ impl Installer for LinuxBackend {
 
 				match src {
 					Git => {
-
+						Err(())
 					}
 
 					Web => {
-
+						Err(())
 					}
 
 					Local => {
-
+						Err(())
 					}
 				}
 
 			}
 
 			None => {
-				return Err(())
+				return handle_regular_install(package, systemconfig)
 			}
 		}
-
-		Ok(())
 	}
 
 	fn install_package_list(packages: &mut Vec<Package>, systemconfig: &Systemconfig) -> Result<(), ()> {
