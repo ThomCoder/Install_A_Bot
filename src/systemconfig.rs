@@ -1,4 +1,7 @@
-use toml::Value;
+use crate::{
+    errors::{Error, ErrorCode},
+    tomlhelper,
+};
 
 pub struct Systemconfig {
     pub name: Option<String>,
@@ -36,21 +39,19 @@ impl SupportedSystems {
 }
 
 pub fn read_system_config(
-    filename: &str,
-    platform: Option<String>,
-    distribution: Option<String>,
-) -> Result<Systemconfig, ()> {
+    platform: Option<&str>,
+    distribution: Option<&str>,
+) -> Result<Systemconfig, Error> {
     if let Some(platform) = &platform {
         if !SupportedSystems::check_platform(&platform) {
-            return Err(());
+            return Err(Error::with_msg(
+                ErrorCode::InvalidParameter,
+                format!("Platform {} not supported", platform),
+            ));
         }
     }
 
-    let file = std::fs::read_to_string(filename).expect("Error reading config file");
-    let toml = match file.parse::<Value>() {
-        Ok(v) => v,
-        Err(_) => return Err(()),
-    };
+    let toml = tomlhelper::open_toml()?;
     let systemconfig = &toml["systemconfig"];
     let mut install_cmd_toml: Option<String> = None;
 
@@ -73,12 +74,15 @@ pub fn read_system_config(
     }
 
     if install_cmd_toml.is_none() {
-        return Err(());
+        return Err(Error::with_msg(
+            ErrorCode::InvalidConfig,
+            "Missing install command".to_string(),
+        ));
     }
 
     let sysname = match distribution {
-        Some(distro) => format!("{}.{}", platform.unwrap_or(String::new()), distro),
-        None => platform.unwrap_or(String::new()),
+        Some(distro) => format!("{}.{}", platform.unwrap_or(""), distro),
+        None => platform.unwrap_or("").to_string(),
     };
     let mut name: Option<String> = None;
     if sysname.len() > 0 {
