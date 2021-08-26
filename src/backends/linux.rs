@@ -3,7 +3,7 @@ use crate::packageconfig::Package;
 use crate::systemconfig::Systemconfig;
 use std::process::Command;
 
-struct LinuxBackend;
+pub struct LinuxBackend;
 
 fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
     let output = Command::new(systemconfig.install_cmd.clone())

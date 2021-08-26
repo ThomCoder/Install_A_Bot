@@ -9,6 +9,8 @@ mod packageconfig;
 mod systemconfig;
 mod tomlhelper;
 
+use backends::Installer;
+
 fn print_section_separator() {
     println!("================================");
 }
@@ -39,7 +41,7 @@ fn main() {
     };
     println!(
         "System Configuration:\nName: {} | install_cmd: {}",
-        sys.name.unwrap_or("default".to_string()),
+        sys.name.as_ref().unwrap_or(&"default".to_string()),
         sys.install_cmd
     );
     if interactive {
@@ -69,7 +71,7 @@ fn main() {
         ),
     };
     print_section_separator();
-    let packages = packageconfig.read_package_list(target_internal);
+    let mut packages = packageconfig.read_package_list(target_internal);
     println!("Found {} packages.", packages.len());
 
     // read package list
@@ -114,4 +116,5 @@ fn main() {
     }
 
     // invoke installation
+    backends::linux::LinuxBackend::install_package_list(&mut packages, &sys).unwrap();
 }
