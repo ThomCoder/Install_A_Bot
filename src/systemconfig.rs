@@ -56,17 +56,17 @@ pub fn read_system_config(
     let mut install_cmd_toml: Option<String> = None;
 
     if let Some(val) = systemconfig.get("install_cmd") {
-        install_cmd_toml = Some(val.to_string());
+        install_cmd_toml = tomlhelper::extract_toml_str_val(val);
     }
     if let Some(target) = &platform {
         if let Some(specific_config) = systemconfig.get(target) {
             if let Some(val) = specific_config.get("install_cmd") {
-                install_cmd_toml = Some(val.to_string());
+                install_cmd_toml = tomlhelper::extract_toml_str_val(val);
             }
             if let Some(distro) = &distribution {
                 if let Some(distro_config) = specific_config.get(distro) {
                     if let Some(val) = distro_config.get("install_cmd") {
-                        install_cmd_toml = Some(val.to_string());
+                        install_cmd_toml = tomlhelper::extract_toml_str_val(val);
                     }
                 }
             }
