@@ -17,7 +17,7 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
         .arg(split_cmd[2])
         .arg(package.name.clone())
         .output()
-        .expect("error");
+        .unwrap();
 
 	if output.status.success() {
 		Ok(())
