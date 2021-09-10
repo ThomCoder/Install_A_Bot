@@ -8,7 +8,13 @@ pub struct LinuxBackend;
 fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
 	dbg!(systemconfig.install_cmd.clone());
 	dbg!(package.name.clone());
-    let output = Command::new(systemconfig.install_cmd.clone())
+
+	let split_cmd: Vec<&str> = systemconfig.install_cmd.split_whitespace().collect();
+
+	// TODO: Don't hardocde indices!
+    let output = Command::new(split_cmd[0])
+        .arg(split_cmd[1])
+        .arg(split_cmd[2])
         .arg(package.name.clone())
         .output()
         .expect("error");
