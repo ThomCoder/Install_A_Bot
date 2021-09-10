@@ -16,6 +16,7 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 	if output.status.success() {
 		Ok(())
 	} else {
+		dbg!(output.status.to_string());
 		Err(())
 	}
 }
