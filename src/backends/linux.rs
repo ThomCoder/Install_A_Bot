@@ -14,7 +14,6 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 	// TODO: Don't hardocde indices!
     let output = Command::new(split_cmd[0])
         .arg(split_cmd[1])
-        .arg(split_cmd[2])
         .arg(package.name.clone())
         .output()
         .unwrap();
