@@ -1,7 +1,7 @@
 [systemconfig]
-install_cmd = "sudo apt --yes install"
+install_cmd = "apt --yes install"
 
 # Following are examples of user defined targets
 [general]
-install_cmd = "sudo apt --yes install"
+install_cmd = "apt --yes install"
 packages = ["cmake", "git"]
