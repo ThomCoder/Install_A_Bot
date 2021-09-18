@@ -8,6 +8,7 @@ use std::process::Command;
 pub struct LinuxBackend;
 
 fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
+	dbg!("handle_regular_install");
 	dbg!(systemconfig.install_cmd.clone());
 	dbg!(package.name.clone());
 
