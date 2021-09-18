@@ -1,6 +1,7 @@
 use crate::backends::Installer;
 use crate::packageconfig::Package;
 use crate::packageconfig::Status;
+use crate::packageconfig::Source;
 use crate::systemconfig::Systemconfig;
 use std::process::Command;
 
@@ -36,18 +37,19 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 impl Installer for LinuxBackend {
 	fn install_package(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
 		match package.source.as_ref() {
-			Some(src) => {
+			Some(_) => {
 
-				match src {
-					Git => {
+				let src_enum = package.source.as_ref().unwrap().0.clone();
+				match src_enum {
+					Source::Git => {
 						Err(())
 					}
 
-					Web => {
+					Source::Web => {
 						Err(())
 					}
 
-					Local => {
+					Source::Local => {
 						Err(())
 					}
 				}
