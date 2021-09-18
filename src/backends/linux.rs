@@ -9,15 +9,19 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 	dbg!(systemconfig.install_cmd.clone());
 	dbg!(package.name.clone());
 
-	let split_cmd: Vec<&str> = systemconfig.install_cmd.split_whitespace().collect();
+	// Get a full fledged "String" so we can better work with it
+	let install_cmd = systemconfig.install_cmd.to_string();
+	let split = install_cmd.split_whitespace();
 
-	// TODO: Don't hardocde indices!
-    let output = Command::new(split_cmd[0])
-        .arg(split_cmd[1])
-        .arg(split_cmd[2])
-        .arg(package.name.clone())
-        .output()
-        .unwrap();
+	let parts: Vec<&str> = split.collect();
+	let mut args: Vec<&str> = parts.clone();
+	args.remove(0);
+
+	let output = Command::new(parts[0])
+		.args(args)
+		.arg(package.name.clone())
+		.output()
+		.unwrap();
 
 	if output.status.success() {
 		Ok(())
