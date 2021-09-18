@@ -68,6 +68,12 @@ fn handle_local_install(package: &mut Package, systemconfig: &Systemconfig) -> R
 	}
 }
 
+fn handle_web_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
+	dbg!("handle_web_install!");
+
+	Err(())
+}
+
 impl Installer for LinuxBackend {
 	fn install_package(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
 		match package.source.as_ref() {
@@ -80,7 +86,7 @@ impl Installer for LinuxBackend {
 					}
 
 					Source::Web => {
-						Err(())
+						return handle_web_install(package, systemconfig);
 					}
 
 					Source::Local => {
