@@ -10,6 +10,7 @@ const SOURCE_URL_IDX: &str = "url";
 const CMDS_IDX: &str = "install_cmds";
 
 #[derive(Debug)]
+#[derive(Clone)]
 pub enum Source {
     Git,
     Web, // Straight download, e.g. via curl
