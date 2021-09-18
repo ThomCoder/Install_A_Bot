@@ -4,4 +4,8 @@ install_cmd = "apt --yes install"
 # Following are examples of user defined targets
 [general]
 install_cmd = "apt --yes install"
-packages = ["cmake", "git"]
+packages = ["cmake", "git", "gitkraken"]
+
+[packagedefinition.gitkraken]
+source="local"
+url="/home/username/gitkraken-amd64.deb"
