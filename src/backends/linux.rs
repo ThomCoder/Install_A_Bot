@@ -34,6 +34,10 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 	}
 }
 
+fn handle_local_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
+	Err(())
+}
+
 impl Installer for LinuxBackend {
 	fn install_package(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
 		match package.source.as_ref() {
@@ -50,7 +54,7 @@ impl Installer for LinuxBackend {
 					}
 
 					Source::Local => {
-						Err(())
+						return handle_local_install(package, systemconfig);
 					}
 				}
 
