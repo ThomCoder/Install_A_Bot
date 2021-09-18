@@ -1,5 +1,6 @@
 use crate::backends::Installer;
 use crate::packageconfig::Package;
+use crate::packageconfig::Status;
 use crate::systemconfig::Systemconfig;
 use std::process::Command;
 
@@ -23,8 +24,10 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 		.unwrap();
 
 	if output.status.success() {
+		package.status = Status::Succeeded;
 		Ok(())
 	} else {
+		package.status = Status::Failed;
 		dbg!(output.status.to_string());
 		Err(())
 	}
