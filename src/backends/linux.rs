@@ -36,7 +36,35 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 }
 
 fn handle_local_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
-	Err(())
+	dbg!("handle_local_install!");
+	dbg!(systemconfig.install_cmd.clone());
+	dbg!(package.name.clone());
+	dbg!(package.source.as_ref().unwrap().0.clone());
+	dbg!(package.source.as_ref().unwrap().1.clone());
+	dbg!(package.cmd.as_ref());
+
+	let split_cmd = systemconfig.install_cmd.split_whitespace();
+	let parts: Vec<&str> = split_cmd.collect();
+
+	// Extract the actual arguments from the full install cmd
+	let mut args: Vec<&str> = parts.clone();
+	args.remove(0);
+
+	let output = Command::new(parts[0])
+		.args(args)
+		.arg(package.source.as_ref().unwrap().1.clone())
+		.output()
+		.unwrap();
+
+	if output.status.success() {
+		package.status = Status::Succeeded;
+		Ok(())
+	} else {
+		package.status = Status::Failed;
+		dbg!(output.status.to_string());
+		dbg!(output.stdout);
+		Err(())
+	}
 }
 
 impl Installer for LinuxBackend {
