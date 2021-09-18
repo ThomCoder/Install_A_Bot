@@ -9,11 +9,10 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 	dbg!(systemconfig.install_cmd.clone());
 	dbg!(package.name.clone());
 
-	// Get a full fledged "String" so we can better work with it
-	let install_cmd = systemconfig.install_cmd.to_string();
-	let split = install_cmd.split_whitespace();
+	let split_cmd = systemconfig.install_cmd.split_whitespace();
+	let parts: Vec<&str> = split_cmd.collect();
 
-	let parts: Vec<&str> = split.collect();
+	// Extract the actual arguments from the full install cmd
 	let mut args: Vec<&str> = parts.clone();
 	args.remove(0);
 
