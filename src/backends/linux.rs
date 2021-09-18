@@ -35,6 +35,8 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 	}
 }
 
+// TODO: This function and handle_regular_install have a lot of code in common.
+// Refactor to reduce code duplication.
 fn handle_local_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), ()> {
 	dbg!("handle_local_install!");
 	dbg!(systemconfig.install_cmd.clone());
