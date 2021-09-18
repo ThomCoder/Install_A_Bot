@@ -64,7 +64,6 @@ fn handle_local_install(package: &mut Package, systemconfig: &Systemconfig) -> R
 	} else {
 		package.status = Status::Failed;
 		dbg!(output.status.to_string());
-		dbg!(output.stdout);
 		Err(())
 	}
 }
