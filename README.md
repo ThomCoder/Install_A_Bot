@@ -26,3 +26,17 @@ Since the configuration is just a text file you can easily share it and store it
 
 Currently Install_A_Bot is in early development and not ready for use.
 The README will be updated as soon as it's usable.
+
+## Building on Linux
+
+Install\_A\_Bot uses libcurl bindings to facilitate downloads from the web.
+Since however a user is also supposed to be able to just download a release binary be good to go,
+we statically link libcurl and openssl (required by libcurl on Linux).
+
+Building openssl requires a short perl setup outlined below:
+
+```bash
+# A helper for CPAN downloads, makes our lives easier down the road
+cpan App::cpanminus
+cpanm FindBin::Real
+```
