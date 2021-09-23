@@ -6,3 +6,5 @@ edition = "2018"
 [dependencies]
 clap = "2.33.3"
 toml = "0.5.8"
+# Keep curl and openssl static to support our "download binary and good to go" approach
+curl = { version = "0.4.38", features = ["static-curl", "static-ssl"] }
