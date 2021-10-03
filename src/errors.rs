@@ -1,5 +1,6 @@
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
 
+#[derive(Debug)]
 pub enum ErrorCode {
     InvalidParameter,
     InvalidConfig,
@@ -8,6 +9,7 @@ pub enum ErrorCode {
     NetworkError,
 }
 
+#[derive(Debug)]
 pub struct Error {
     code: ErrorCode,
     msg: Option<String>,
