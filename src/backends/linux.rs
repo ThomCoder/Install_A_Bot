@@ -11,21 +11,17 @@ use std::io::Write;
 
 pub struct LinuxBackend;
 
-fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), Error> {
-	dbg!("handle_regular_install");
-	dbg!(systemconfig.install_cmd.clone());
-	dbg!(package.name.clone());
+fn do_package_manager_install(pm_cmd: &str, args: &Vec<&str>, package: &mut Package) -> Result<(), Error> {
+	dbg!("do_package_manager_install");
+	dbg!(pm_cmd);
+	dbg!(args);
+	dbg!(package.clone());
 
-	let split_cmd = systemconfig.install_cmd.split_whitespace();
-	let parts: Vec<&str> = split_cmd.collect();
+	let package_name = package.clone().name;
 
-	// Extract the actual arguments from the full install cmd
-	let mut args: Vec<&str> = parts.clone();
-	args.remove(0);
-
-	let output = Command::new(parts[0])
+	let output = Command::new(pm_cmd)
 		.args(args)
-		.arg(package.name.clone())
+		.arg(package_name)
 		.output()
 		.unwrap();
 
@@ -42,8 +38,21 @@ fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) ->
 	}
 }
 
-// TODO: This function and handle_regular_install have a lot of code in common.
-// Refactor to reduce code duplication.
+fn handle_regular_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), Error> {
+	dbg!("handle_regular_install");
+	dbg!(systemconfig.install_cmd.clone());
+	dbg!(package.name.clone());
+
+	let split_cmd = systemconfig.install_cmd.split_whitespace();
+	let parts: Vec<&str> = split_cmd.collect();
+
+	// Extract the actual arguments from the full install cmd
+	let mut args: Vec<&str> = parts.clone();
+	args.remove(0);
+
+	return do_package_manager_install(parts[0], &args, package);
+}
+
 fn handle_local_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), Error> {
 	dbg!("handle_local_install!");
 	dbg!(systemconfig.install_cmd.clone());
@@ -59,23 +68,7 @@ fn handle_local_install(package: &mut Package, systemconfig: &Systemconfig) -> R
 	let mut args: Vec<&str> = parts.clone();
 	args.remove(0);
 
-	let output = Command::new(parts[0])
-		.args(args)
-		.arg(package.source.as_ref().unwrap().1.clone())
-		.output()
-		.unwrap();
-
-	if output.status.success() {
-		package.status = Status::Succeeded;
-		Ok(())
-	} else {
-		package.status = Status::Failed;
-		dbg!(output.status.to_string());
-		return Err(Error::with_msg(
-			ErrorCode::HostError,
-			"Interaction with host package manager failed".to_string()
-		));
-	}
+	return do_package_manager_install(parts[0], &args, package);
 }
 
 fn handle_web_install(package: &mut Package, systemconfig: &Systemconfig) -> Result<(), Error> {
@@ -125,23 +118,7 @@ fn handle_web_install(package: &mut Package, systemconfig: &Systemconfig) -> Res
 	let mut args: Vec<&str> = parts.clone();
 	args.remove(0);
 
-	let output = Command::new(parts[0])
-		.args(args)
-		.arg(file_name)
-		.output()
-		.unwrap();
-
-	if output.status.success() {
-		package.status = Status::Succeeded;
-		Ok(())
-	} else {
-		package.status = Status::Failed;
-		dbg!(output.status.to_string());
-		return Err(Error::with_msg(
-			ErrorCode::HostError,
-			"Interaction with host package manager failed".to_string()
-		));
-	}
+	return do_package_manager_install(parts[0], &args, package);
 }
 
 impl Installer for LinuxBackend {
