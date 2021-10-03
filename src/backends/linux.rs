@@ -1,8 +1,6 @@
 use crate::backends::Installer;
 use crate::errors::{Error, ErrorCode};
-use crate::packageconfig::Package;
-use crate::packageconfig::Status;
-use crate::packageconfig::Source;
+use crate::packageconfig::{Package, Status, Source};
 use crate::systemconfig::Systemconfig;
 use std::process::Command;
 use curl::easy::Easy;
