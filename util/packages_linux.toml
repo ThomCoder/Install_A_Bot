@@ -9,3 +9,7 @@ packages = ["cmake", "git", "gitkraken"]
 [packagedefinition.gitkraken]
 source="local"
 url="/home/username/gitkraken-amd64.deb"
+
+[packagedefinition.codium]
+source="web"
+url="127.0.0.1:8000/codium-1.60.2-1632356608.el7.x86_64.rpm"
