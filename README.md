@@ -24,8 +24,11 @@ Since the configuration is just a text file you can easily share it and store it
 
 ## Current state
 
-Currently Install_A_Bot is in early development and not ready for use.
-The README will be updated as soon as it's usable.
+Currently Install_A_Bot is in early development and not ready for regular use.
+
+At the current state there is some very basic support for Linux platforms.
+While it basically works the target binary will have to be run as root right from the start and it likely still contains bugs and other issues.
+It is therefore not recommended to use unless you are familiar with [Rust](https://www.rust-lang.org/) and can fix issues for yourself.
 
 ## Building on Linux
 
