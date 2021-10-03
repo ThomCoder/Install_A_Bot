@@ -87,6 +87,7 @@ fn handle_web_install(package: &mut Package, systemconfig: &Systemconfig) -> Res
 
 	let file = File::create(file_name);
 
+	// Use libcurl to download the file
 	match file {
 		Ok(mut f) => {
 			let mut easy = Easy::new();
