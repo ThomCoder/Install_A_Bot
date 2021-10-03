@@ -4,6 +4,8 @@ pub enum ErrorCode {
     InvalidParameter,
     InvalidConfig,
     ParseError,
+    HostError, // Signals error while interacting with host system
+    NetworkError,
 }
 
 pub struct Error {
@@ -41,6 +43,8 @@ impl Display for ErrorCode {
             ErrorCode::InvalidParameter => "Invalid Parameter",
             ErrorCode::ParseError => "Parse Error",
             ErrorCode::InvalidConfig => "Invalid Configuration",
+            ErrorCode::HostError => "Interaction with host system failed",
+            ErrorCode::NetworkError => "Network request failed"
         };
         write!(f, "{}", code)
     }
