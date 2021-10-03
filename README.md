@@ -33,7 +33,7 @@ It is therefore not recommended to use unless you are familiar with [Rust](https
 ## Building on Linux
 
 Install\_A\_Bot uses libcurl bindings to facilitate downloads from the web.
-Since however a user is also supposed to be able to just download a release binary be good to go,
+Since however a user is also supposed to be able to just download a release binary and be good to go,
 we statically link libcurl and openssl (required by libcurl on Linux).
 
 Building openssl requires a short perl setup outlined below:
