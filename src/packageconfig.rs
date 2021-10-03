@@ -18,7 +18,7 @@ pub enum Source {
 }
 
 #[allow(dead_code)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Status {
     ParseErr,
     Ready,
@@ -31,7 +31,7 @@ pub struct PackageConfig {
     packageconfigs: Option<Value>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Package {
     pub name: String,
     pub status: Status,
